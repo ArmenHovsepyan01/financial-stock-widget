@@ -1,8 +1,6 @@
 import { FC } from 'react';
 import { addCurrency } from '../../redux/store/features/currencies/currenciesSlice.ts';
 import { useDispatch } from 'react-redux';
-import { Simulate } from 'react-dom/test-utils';
-import close = Simulate.close;
 
 interface IAddButton {
   symbol: string;
