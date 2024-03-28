@@ -5,10 +5,12 @@ import HighchartsReact from 'highcharts-react-official';
 import HighchartsAccessibility from 'highcharts/modules/accessibility';
 
 import { IncomingData } from '../../types/types.ts';
-import { XCircleIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useDispatch } from 'react-redux';
 import { removeCurrency } from '../../redux/store/features/currencies/currenciesSlice.ts';
+import darkUnicaTheme from 'highcharts/themes/dark-unica';
 
+darkUnicaTheme(Highcharts);
 HighchartsAccessibility(Highcharts);
 
 interface IWidget {
@@ -84,10 +86,7 @@ const Widget: FC<IWidget> = ({ symbol, subscribe, unsubscribe, socket }) => {
   return (
     <div className={'w-600 relative'}>
       <HighchartsReact highcharts={Highcharts} constructorType={'stockChart'} options={chartOptions} />
-      <XCircleIcon
-        className={'absolute top-0 right-0 h-6 w-6 text-white hover:cursor-pointer fill-black'}
-        onClick={removeChart}
-      />
+      <XMarkIcon className={'absolute top-0 right-0 h-6 w-6 cursor-pointer'} onClick={removeChart} />
     </div>
   );
 };

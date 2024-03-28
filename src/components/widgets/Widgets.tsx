@@ -2,6 +2,7 @@ import { useAppSelector } from '../../redux/store/hooks';
 import Widget from '../widget/Widget.tsx';
 import Container from '../container/Container.tsx';
 import { useEffect, useRef } from 'react';
+import StockWidgets from '../stock-widgets/StockWidgets.tsx';
 
 const Widgets = () => {
   const currencies = useAppSelector((state) => state.currencies.currencies);
@@ -30,6 +31,7 @@ const Widgets = () => {
   return (
     <Container>
       <div className={'p-2 w-full flex my-2 flex flex-wrap gap-5 justify-between'}>
+        <StockWidgets socket={connection?.current} />
         {currencies.length === 0 ? (
           <div className={'justify-center w-full flex text-2xl font-normal'}>Add your currency to see live data.</div>
         ) : (
