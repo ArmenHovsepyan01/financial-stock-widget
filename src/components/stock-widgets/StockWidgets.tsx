@@ -1,19 +1,42 @@
 import StockWidget from './stock-widget/StockWidget.tsx';
-import { FC } from 'react';
+import { useEffect, useState } from 'react';
 
-interface IStockWidgets {
-  socket: WebSocket;
-}
+const StockWidgets = () => {
+  const stockMarketNames = [
+    {
+      symbol: 'AAPL',
+      name: 'Apple',
+    },
+    {
+      symbol: 'AMZN',
+      name: 'Amazon',
+    },
+    {
+      symbol: 'MSFT',
+      name: 'Microsoft',
+    },
+    {
+      symbol: 'BINANCE:BTCUSDT',
+      name: 'Bitcoin',
+    },
+  ];
 
-const StockWidgets: FC<IStockWidgets> = ({ socket }) => {
-  const stockMarketNames = ['AAPL', 'MSFT', 'AMZN'];
-  console.log(socket);
+  const [connection, setConnection] = useState<WebSocket>();
+  useEffect(() => {
+    const socket = new WebSocket(`${import.meta.env.VITE_MARKET_URI}`);
+
+    socket.addEventListener('open', () => {
+      console.log('Connected successfully.');
+      setConnection(socket);
+    });
+  }, []);
 
   return (
-    <div className={'flex gap-3'}>
-      {stockMarketNames.map((item) => {
-        return <StockWidget socket={socket} symbol={item} key={item} />;
-      })}
+    <div className={'flex gap-3 justify-between bg-blue-400 p-4 rounded'}>
+      {connection &&
+        stockMarketNames.map((item) => {
+          return <StockWidget socket={connection} symbol={item.symbol} key={item.symbol} name={item.name} />;
+        })}
     </div>
   );
 };

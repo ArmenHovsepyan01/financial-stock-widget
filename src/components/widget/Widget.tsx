@@ -8,9 +8,7 @@ import { IncomingData } from '../../types/types.ts';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useDispatch } from 'react-redux';
 import { removeCurrency } from '../../redux/store/features/currencies/currenciesSlice.ts';
-import darkUnicaTheme from 'highcharts/themes/dark-unica';
 
-darkUnicaTheme(Highcharts);
 HighchartsAccessibility(Highcharts);
 
 interface IWidget {
