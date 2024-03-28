@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, memo, useEffect, useState } from 'react';
 
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
@@ -6,49 +6,52 @@ import HighchartsAccessibility from 'highcharts/modules/accessibility';
 
 import { IncomingData } from '../../types/types.ts';
 import { XCircleIcon } from '@heroicons/react/24/outline';
+import { useDispatch } from 'react-redux';
+import { removeCurrency } from '../../redux/store/features/currencies/currenciesSlice.ts';
 
 HighchartsAccessibility(Highcharts);
 
 interface IWidget {
   symbol: string;
+  subscribe: (symbol: string) => void;
+  unsubscribe: (symbol: string) => void;
+  socket?: WebSocket;
 }
 
-const Widget: FC<IWidget> = ({ symbol }) => {
-  const connection = useRef<WebSocket | null>(null);
+const Widget: FC<IWidget> = ({ symbol, subscribe, unsubscribe, socket }) => {
   const [data, setData] = useState<IncomingData[]>([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const socket = new WebSocket(`${import.meta.env.VITE_WS}`);
+    if (socket) {
+      subscribe(symbol);
+      socket.addEventListener('message', (event) => {
+        const receivedData = JSON.parse(event.data)?.data?.filter((item) => item.s === symbol);
 
-    socket.addEventListener('open', () => {
-      console.log('Connected successfully');
-      socket.send(JSON.stringify({ type: 'subscribe', symbol: symbol }));
-    });
+        const updatedData = [
+          ...receivedData?.map((item: { p: number; t: number }) => {
+            return [new Date(item.t).getTime(), item.p];
+          }),
+        ];
 
-    socket.addEventListener('message', function (event) {
-      const receivedData: IncomingData[] = JSON.parse(event.data).data;
-
-      const updatedData = [];
-
-      receivedData?.forEach((item: { p: number; t: number }): void => {
-        updatedData.push([new Date(item.t).getTime(), item.p]);
+        setData((prevData) => {
+          const sortedArray: IncomingData[] = [...prevData, ...updatedData].sort((a, b) => a[0] - b[0]);
+          return sortedArray;
+        });
       });
-
-      setData((prevData) => {
-        const sortedArray: IncomingData[] = [...prevData, ...updatedData].sort((a, b) => a[0] - b[0]);
-        return sortedArray;
-      });
-    });
-
-    connection.current = socket;
-
-    return () => socket.close();
-  }, []);
+    }
+  }, [socket, subscribe, symbol]);
 
   const chartOptions = {
     chart: {
       type: 'spline',
       marginRight: 10,
+      borderColor: '#eeeeee',
+      borderWidth: 2,
+      borderRadius: 2,
+    },
+    title: {
+      text: symbol,
     },
     time: {
       useUTC: false,
@@ -74,10 +77,8 @@ const Widget: FC<IWidget> = ({ symbol }) => {
   };
 
   const removeChart = () => {
-    if (connection.current) {
-      connection.current.send(JSON.stringify({ type: 'subscribe', symbol: symbol }));
-      connection.current.close();
-    }
+    unsubscribe(symbol);
+    dispatch(removeCurrency({ symbol }));
   };
 
   return (
@@ -91,4 +92,4 @@ const Widget: FC<IWidget> = ({ symbol }) => {
   );
 };
 
-export default Widget;
+export default memo(Widget);

@@ -1,15 +1,18 @@
-import Layout from './layout/layout.tsx';
-import Container from './components/container/Container.tsx';
-import Widget from './components/widget/Widget.tsx';
+import React from 'react';
 
-export default function App() {
+import Layout from './layout/layout.tsx';
+import { Provider } from 'react-redux';
+import store from './redux/store/store.ts';
+import Widgets from './components/widgets/Widgets.tsx';
+
+const App = () => {
   return (
-    <Layout>
-      <Container>
-        <div className={'justify-center w-full flex my-2 '}>
-          <Widget symbol={'AAPL'} />
-        </div>
-      </Container>
-    </Layout>
+    <Provider store={store}>
+      <Layout>
+        <Widgets />
+      </Layout>
+    </Provider>
   );
-}
+};
+
+export default React.memo(App);

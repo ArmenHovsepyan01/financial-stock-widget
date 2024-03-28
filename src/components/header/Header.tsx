@@ -1,22 +1,14 @@
-// import { Popover, Transition } from '@headlessui/react';
 import { Bars3Icon } from '@heroicons/react/24/outline';
-import { useState } from 'react';
-import Sidebar from '../sidebar/Sidebar.tsx';
-// import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid';
 
-export default function Header() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+interface IHeader {
+  openSidebar: () => void;
+}
 
-  const openSidebar = () => {
-    setIsOpen(true);
-  };
-  const closeSidebar = () => {
-    setIsOpen(false);
-  };
+export default function Header({ openSidebar }: IHeader) {
   return (
     <>
-      <header className="bg-slate-50">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+      <header className="bg-slate-50 h-20">
+        <nav className="mx-auto flex max-w-1500 items-center justify-between p-6 lg:px-8" aria-label="Global">
           <div className={'flex justify-center align-center gap-8'}>
             <div className="flex">
               <button
@@ -46,7 +38,6 @@ export default function Header() {
           </div>
         </nav>
       </header>
-      <Sidebar isOpened={isOpen} closeSidebar={closeSidebar} />
     </>
   );
 }
