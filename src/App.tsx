@@ -10,7 +10,6 @@ const App = () => {
   return (
     <Provider store={store}>
       <Layout>
-        <Alert type={'warning'} message={'pordznaakn'} />
         <Widgets />
       </Layout>
     </Provider>
