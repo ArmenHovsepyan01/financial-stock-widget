@@ -1,30 +1,21 @@
-# React + TypeScript + Vite
+# Financial Stock Widgets
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This webpage let you add crypto currency or stock market widget and follow it's changes by visualizationed charts.
 
-Currently, two official plugins are available:
+Go by this link and give a try (https://financial-stock-widget-bzsraxjvt-armenhovsepyan01s-projects.vercel.app/).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Instructions for using webpage
+After opening the webpage you can see menu icon 
+- Click menu icon to open menu
+- After opening menu select currency from categories
+- After selection click add button to add current currency chart to your dashboard
+- If you want to remove chart just click delete button in the top right corner
 
-## Expanding the ESLint configuration
+## For custom usage
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+If you want to use this repo for custom follow this steps
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Begin by cloning this repository with the command `git clone`
+- Navigate to the cloned repository folder using `cd financial-stock-widget`
+- Execute `npm install` to install all required packages and dependencies
+- Finally, initiate the server with `npm run dev` (By deafult,the server hostname is ` http://localhost:5173/`)
