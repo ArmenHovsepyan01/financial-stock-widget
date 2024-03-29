@@ -4,23 +4,19 @@ import { useEffect, useState } from 'react';
 const StockWidgets = () => {
   const stockMarketNames = [
     {
-      symbol: 'AAPL',
-      name: 'Apple',
+      symbol: 'OANDA:EUR_USD',
+      name: 'EUR/USD',
     },
     {
-      symbol: 'AMZN',
-      name: 'Amazon',
+      symbol: 'OANDA:GBP_USD',
+      name: 'GBP/USD',
     },
     {
-      symbol: 'MSFT',
-      name: 'Microsoft',
-    },
-    {
-      symbol: 'BINANCE:BTCUSDT',
+      symbol: 'COINBASE:BTC-USD',
       name: 'Bitcoin',
     },
     {
-      symbol: 'ETHBTC',
+      symbol: 'COINBASE:ETH-USD',
       name: 'Etherium',
     },
   ];

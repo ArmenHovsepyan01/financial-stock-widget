@@ -45,7 +45,7 @@ const StockWidget: FC<IStockWidget> = ({ socket, symbol, name }) => {
     <div className={'flex gap-1 bg-gray-700 rounded text-white min-w-52 min-h-16 p-2 justify-center flex-col'}>
       <div className={'flex justify-between items-center w-full'}>
         <span>{name}</span>
-        <span>{data?.p}</span>
+        <span>{data?.p.toFixed(3)}</span>
       </div>
       <div className={`${percent >= 0 ? 'text-green-600' : 'text-red-600'}  flex gap-2 items-center justify-between`}>
         <div className={'flex items-center justify-center gap-2'}>
