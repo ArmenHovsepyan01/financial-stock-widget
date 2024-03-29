@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../../store.ts';
 
 interface IState {
   currencies: string[];
@@ -24,6 +25,13 @@ const currenciesSlice = createSlice({
     },
   },
 });
+
+export const getCurrencies = (state: RootState) => state.currencies.currencies;
+
+export const usedCurrency = createSelector(
+  [getCurrencies, (_currencies, symbol: string) => symbol],
+  (currencies, symbol) => currencies.find((item) => item === symbol),
+);
 
 export const { addCurrency, removeCurrency } = currenciesSlice.actions;
 export default currenciesSlice.reducer;

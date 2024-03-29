@@ -7,7 +7,7 @@ interface IHeader {
 export default function Header({ openSidebar }: IHeader) {
   return (
     <>
-      <header className="bg-slate-50 h-20">
+      <header className="fixed w-full bg-slate-50 h-20 z-30">
         <nav className="mx-auto flex max-w-1500 items-center justify-between p-6 lg:px-8" aria-label="Global">
           <div className={'flex justify-center align-center gap-8'}>
             <div className="flex">

@@ -19,7 +19,7 @@ const Layout: FC<Props> = ({ children }) => {
     <>
       <Header openSidebar={openSidebar} />
       <Sidebar isOpened={isOpen} closeSidebar={closeSidebar} />
-      {children}
+      <main>{children}</main>
     </>
   );
 };

@@ -28,8 +28,10 @@ const Widget: FC<IWidget> = ({ symbol, subscribe, unsubscribe, socket }) => {
       socket.addEventListener('message', (event) => {
         const receivedData = JSON.parse(event.data)?.data?.filter((item) => item.s === symbol);
 
+        if (!receivedData || receivedData.length === 0) return;
+
         const updatedData = [
-          ...receivedData?.map((item: { p: number; t: number }) => {
+          ...receivedData.map((item: { p: number; t: number }) => {
             return [new Date(item.t).getTime(), item.p];
           }),
         ];
@@ -70,7 +72,7 @@ const Widget: FC<IWidget> = ({ symbol, subscribe, unsubscribe, socket }) => {
     },
     series: [
       {
-        name: 'Live Data',
+        name: `${symbol} Live Data`,
         data: data,
       },
     ],

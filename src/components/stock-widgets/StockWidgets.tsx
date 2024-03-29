@@ -19,6 +19,10 @@ const StockWidgets = () => {
       symbol: 'BINANCE:BTCUSDT',
       name: 'Bitcoin',
     },
+    {
+      symbol: 'ETHBTC',
+      name: 'Etherium',
+    },
   ];
 
   const [connection, setConnection] = useState<WebSocket>();
@@ -32,7 +36,7 @@ const StockWidgets = () => {
   }, []);
 
   return (
-    <div className={'flex gap-3 justify-between bg-blue-400 p-4 rounded'}>
+    <div className={'flex gap-3 justify-between bg-blue-400 p-4 rounded mt-20 flex-wrap'}>
       {connection &&
         stockMarketNames.map((item) => {
           return <StockWidget socket={connection} symbol={item.symbol} key={item.symbol} name={item.name} />;
