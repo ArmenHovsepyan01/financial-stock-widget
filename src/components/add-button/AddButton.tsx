@@ -9,10 +9,9 @@ interface IAddButton {
 
 const AddButton: FC<IAddButton> = ({ symbol, closeSidebar }) => {
   const dispatch = useDispatch();
-  const isDisabled = symbol.toLowerCase().includes('please');
+  const isDisabled = symbol.toLowerCase().includes('select');
   const existedCurrency = useSelector((state) => usedCurrency(state, symbol));
 
-  console.log(existedCurrency);
   const onClick = () => {
     if (!existedCurrency) {
       dispatch(addCurrency({ symbol }));

@@ -10,7 +10,7 @@ interface ICurrency {
 }
 
 const Currency: FC<ICurrency> = ({ url, closeSidebar }) => {
-  const [selected, setSelected] = useState('Please select currency');
+  const [selected, setSelected] = useState('Select currency');
 
   const { data, isLoading } = useSWR(url, fetcher);
 

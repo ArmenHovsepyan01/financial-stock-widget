@@ -1,6 +1,7 @@
 import { FC, ReactNode, useState } from 'react';
 import Header from '../components/header/Header';
 import Sidebar from '../components/sidebar/Sidebar.tsx';
+import { Context } from '../Context.tsx';
 
 interface Props {
   children: ReactNode;
@@ -15,10 +16,19 @@ const Layout: FC<Props> = ({ children }) => {
   const closeSidebar = () => {
     setIsOpen(false);
   };
+
+  const contextValue = {
+    isOpen,
+    closeSidebar,
+    openSidebar,
+  };
+
   return (
     <>
-      <Header openSidebar={openSidebar} />
-      <Sidebar isOpened={isOpen} closeSidebar={closeSidebar} />
+      <Context.Provider value={contextValue}>
+        <Header />
+        <Sidebar />
+      </Context.Provider>
       <main>{children}</main>
     </>
   );

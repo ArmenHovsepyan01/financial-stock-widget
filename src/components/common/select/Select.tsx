@@ -1,6 +1,5 @@
-import { Fragment } from 'react';
-import { Listbox, Transition } from '@headlessui/react';
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
+import { useEffect, useRef, useState } from 'react';
+import { ChevronUpDownIcon } from '@heroicons/react/20/solid';
 
 interface Props {
   data: any[];
@@ -9,46 +8,59 @@ interface Props {
 }
 
 export default function Select({ data, selected, setSelected }: Props) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        closeSelectMenu();
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownRef]);
+
+  const closeSelectMenu = () => {
+    setIsOpen(false);
+  };
+
+  const toggleSelectMenu = () => {
+    setIsOpen((prev) => !prev);
+  };
+
   return (
-    <div className="w-full h-full">
-      <Listbox value={selected} onChange={setSelected}>
-        <div className="relative h-full">
-          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-            <span className="block truncate">{selected}</span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-            </span>
-          </Listbox.Button>
-          <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
-            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm z-50">
-              {data.map((item, i) => (
-                <Listbox.Option
-                  key={i}
-                  className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                      active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
-                    }`
-                  }
-                  value={item.symbol}
-                >
-                  {({ selected }) => (
-                    <>
-                      <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>
-                        {item.description}
-                      </span>
-                      {selected ? (
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                          <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                        </span>
-                      ) : null}
-                    </>
-                  )}
-                </Listbox.Option>
-              ))}
-            </Listbox.Options>
-          </Transition>
+    <div className="w-full h-full relative" ref={dropdownRef}>
+      <button
+        className={'bg-white w-full p-2 rounded text-start flex justify-between whitespace-normal'}
+        onClick={toggleSelectMenu}
+      >
+        {selected}
+        <ChevronUpDownIcon className={'h-6 w-6'} />
+      </button>
+      {isOpen && (
+        <div
+          className={'bg-white w-full max-h-44 absolute top-11 left-0 z-10 rounded overflow-auto flex flex-col gap-2'}
+        >
+          {data.map((item) => {
+            return (
+              <div
+                className={`border-l-teal-600 cursor-pointer p-2 transition ease-linear hover:bg-amber-200 flex justify-between items-center ${selected === item.symbol ? 'bg-amber-200' : 'bg-transparent'}`}
+                key={item.symbol}
+                onClick={() => {
+                  setSelected(item.symbol);
+                  closeSelectMenu();
+                }}
+              >
+                {item.description}
+              </div>
+            );
+          })}
         </div>
-      </Listbox>
+      )}
     </div>
   );
 }

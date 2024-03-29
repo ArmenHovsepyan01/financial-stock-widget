@@ -32,15 +32,15 @@ const Widgets = () => {
   return (
     <Container>
       <StockWidgets />
-      <div className={'py-4 w-full flex my-2 flex flex-wrap gap-5 justify-between'}>
+      <div className={'py-4 w-full flex my-2 flex-wrap gap-5 justify-between'}>
         {currencies.length === 0 ? (
           <div className={'justify-center w-full flex text-2xl font-normal'}>Add your currency to see live data.</div>
         ) : (
-          currencies.map((currency, i) => {
+          currencies.map((currency) => {
             return (
               <Widget
                 symbol={currency}
-                key={i}
+                key={currency}
                 subscribe={subscribe}
                 unsubscribe={unsubscribe}
                 socket={connection?.current}

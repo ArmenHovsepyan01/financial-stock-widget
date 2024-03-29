@@ -1,17 +1,15 @@
 import { Transition } from '@headlessui/react';
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Currency from './currency/Currency.tsx';
+import { Context } from '../../Context.tsx';
 
-interface ISidebar {
-  isOpened: boolean;
-  closeSidebar: () => void;
-}
+const Sidebar: FC = () => {
+  const { isOpen, closeSidebar } = useContext(Context);
 
-const Sidebar: FC<ISidebar> = ({ isOpened, closeSidebar }) => {
   return (
     <Transition
-      show={isOpened}
+      show={isOpen}
       enter="transition-tranform ease-out duration-500 delay-120"
       enterFrom=" -translate-x-72"
       enterTo=" -translate-x-0"
